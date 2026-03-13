@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useI18n } from '../../composables/useI18n';
 
 const isMobileMenuOpen = ref(false);
-
-const currentLang = ref('ES');
+const { t, currentLang, toggleLanguage: toggleLang } = useI18n();
 
 const toggleMobileMenu = ():void => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
 
 const toggleLanguage = (): void => {
-  currentLang.value = currentLang.value === 'ES' ? 'EN' : 'ES';
+  toggleLang();
 
   if (isMobileMenuOpen.value) {
     isMobileMenuOpen.value = false;
@@ -35,17 +35,16 @@ const closeMenu = (): void => {
           </RouterLink>
         </div>
 
-        <!-- Menú de Navegación para Escritorio -->
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-2">
-            <RouterLink to="/" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Inicio</RouterLink>
-            <RouterLink to="/blog" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Blog</RouterLink>
-            <RouterLink to="/recursos" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Recursos</RouterLink>
-          </div>
-        </div>
-
         <!-- Botón de Idioma y Menú Hamburguesa -->
         <div class="flex items-center">
+          <!-- Menú de Navegación para Escritorio -->
+          <div class="hidden md:block">
+            <div class="flex items-baseline space-x-2 mr-4">
+              <RouterLink to="/" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">{{ t.navbar.home }}</RouterLink>
+              <RouterLink to="/blog" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">{{ t.navbar.docs }}</RouterLink>
+            </div>
+          </div>
+
           <!-- Botón de Idioma -->
           <button @click="toggleLanguage" class="hidden md:block bg-slate-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mr-4">
             <span class="px-2 text-sm font-semibold">{{ currentLang }}</span>
@@ -80,15 +79,14 @@ const closeMenu = (): void => {
       leave-to-class="transform opacity-0 scale-95"
     >
       <div v-if="isMobileMenuOpen" class="md:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-          <RouterLink @click="closeMenu" to="/" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Inicio</RouterLink>
-          <RouterLink @click="closeMenu" to="/blog" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Blog</RouterLink>
-          <RouterLink @click="closeMenu" to="/recursos" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">Recursos</RouterLink>
-        </div>
+          <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+            <RouterLink @click="closeMenu" to="/" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">{{ t.navbar.home }}</RouterLink>
+            <RouterLink @click="closeMenu" to="/blog" class="block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">{{ t.navbar.docs }}</RouterLink>
+          </div>
         <!-- Botón de idioma dentro del menú móvil -->
         <div class="border-t border-gray-700 px-2 pt-3 pb-3">
           <button @click="toggleLanguage" class="w-full text-left block text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-base font-medium">
-            Cambiar a {{ currentLang === 'ES' ? 'EN' : 'ES' }}
+            {{ t.navbar.language }}
           </button>
         </div>
       </div>

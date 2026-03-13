@@ -1,19 +1,32 @@
 <script setup lang="ts">
+import { useCvStore } from '../../store/experienceStore';
+import { storeToRefs } from 'pinia';
+import { useI18n } from '../../composables/useI18n';
 
+const cvStore = useCvStore();
+const { profile, loading, error } = storeToRefs(cvStore);
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="bg-gray-900 text-white">
     <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-[calc(100vh-4rem)]">
       <div class="text-center">
-        <h1 class="text-5xl md:text-7xl font-black uppercase">
-          Tu Nombre
-        </h1>
-        <div class="typing-container mt-4">
-          <h2 class="text-2xl md:text-4xl text-sky-400 font-medium typing-effect">
-            Software Developer
-          </h2>
+        <div v-if="loading" class="text-2xl">{{ t.common.loading }}</div>
+        <div v-else-if="error" class="text-center text-red-500">
+          <p>{{ t.common.error }}:</p>
+          <pre>{{ error.message }}</pre>
         </div>
+        <template v-else-if="profile">
+          <h1 class="text-5xl md:text-7xl font-black uppercase">
+            {{ profile.name }}
+          </h1>
+          <div class="typing-container mt-4">
+            <h2 class="text-2xl md:text-4xl text-sky-400 font-medium typing-effect">
+              {{ profile.title }}
+            </h2>
+          </div>
+        </template>
       </div>
     </div>
   </div>

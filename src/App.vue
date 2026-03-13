@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
+import { useCvStore } from './store/experienceStore';
 
-import Footer from './components/Footer.vue';
-import Navbar from './components/Navbar.vue';
+import Footer from './components/layout/Footer.vue';
+import Navbar from './components/layout/Navbar.vue';
+
+const cvStore = useCvStore();
+
+onMounted(() => {
+  cvStore.fetchData();
+});
 </script>
 
 <template>
@@ -10,10 +18,10 @@ import Navbar from './components/Navbar.vue';
     <Navbar />
 
     <main class="flex-grow">
-      <RouterView></RouterView>
-      </main>
+      <RouterView />
+    </main>
 
-    <Footer></Footer>
+    <Footer />
   </div>
 </template>
 
