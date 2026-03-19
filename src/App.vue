@@ -3,8 +3,7 @@ import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { useCvStore } from './store/experienceStore';
 
-import Footer from './components/layout/Footer.vue';
-import Navbar from './components/layout/Navbar.vue';
+import Sidebar from './components/layout/Sidebar.vue';
 
 const cvStore = useCvStore();
 
@@ -14,14 +13,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-900">
-    <Navbar />
+  <div class="flex flex-col lg:flex-row min-h-screen bg-[#131314]">
 
-    <main class="flex-grow">
+    <!-- Sidebar (desktop: left column | mobile: sticky top bar) -->
+    <Sidebar />
+
+    <!-- Main content -->
+    <main class="flex-1 min-w-0">
       <RouterView />
     </main>
 
-    <Footer />
   </div>
 </template>
-

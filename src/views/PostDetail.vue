@@ -48,7 +48,7 @@ onMounted(() => {
     <!-- Back Link -->
     <button 
       @click="router.back()" 
-      class="flex items-center text-sky-400 hover:text-sky-300 transition-colors mb-8 group"
+      class="flex items-center text-blue-400 hover:text-blue-300 transition-colors mb-8 group"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -57,7 +57,7 @@ onMounted(() => {
     </button>
 
     <div v-if="isLoading" class="text-center text-gray-400 mt-20">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-sky-500 mb-4"></div>
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400 mb-4"></div>
       <p>{{ t.common.loading }}</p>
     </div>
 
@@ -75,12 +75,12 @@ onMounted(() => {
       </div>
     </div>
 
-    <article v-else-if="post" class="bg-gray-800/30 p-8 rounded-xl shadow-2xl border border-gray-700">
-      <header class="mb-8 pb-8 border-b border-gray-700">
+    <article v-else-if="post" class="bg-[#232325] p-8 rounded-xl shadow-2xl border border-[#2e2e30]">
+      <header class="mb-8 pb-8 border-b border-[#2e2e30]">
         <h1 class="text-4xl font-bold text-white mb-4">
           {{ post.title }}
         </h1>
-        <p class="text-gray-500 flex items-center">
+        <p class="text-gray-400 flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>

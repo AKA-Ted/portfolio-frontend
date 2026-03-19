@@ -9,6 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/About.vue'),
+  },
+  {
     path: '/blog',
     name: 'blog',
     component: () => import('../views/Post.vue'),
@@ -17,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/blog/:url',
     name: 'postDetail',
     component: () => import('../views/PostDetail.vue'),
+  },
+  {
+    path: '/snippets',
+    name: 'snippets',
+    component: () => import('../views/Snippets.vue'),
   },
 ];
 

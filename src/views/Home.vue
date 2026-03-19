@@ -1,87 +1,133 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
-import ExperienceSection from '../components/home/ExperienceSection.vue';
-import EducationSection from '../components/home/EducationSection.vue';
-import HeroSection from '../components/home/HeroSection.vue';
+import { ref, computed, onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
 import { useCvStore } from '../store/experienceStore';
+import { storeToRefs } from 'pinia';
 import { useI18n } from '../composables/useI18n';
+import { useDateFormatter } from '../composables/useDateFormatter';
+import LoadingSpinner from '../components/common/LoadingSpinner.vue';
+import ErrorMessage from '../components/common/ErrorMessage.vue';
+import { getPosts } from '../services/postService';
+import type { Post } from '../interfaces/Post';
 
 const store = useCvStore();
-const { t, getStatusMessage } = useI18n();
+const { profile, experience, loading, error } = storeToRefs(store);
+const { t } = useI18n();
 
-const showScrollTop = ref(false);
+// Latest experience entry (first in array = most recent)
+const latestJob = computed(() => experience.value[0] ?? null);
 
-const handleScroll = () => {
-  showScrollTop.value = window.scrollY > 500;
-};
+// Blog: fetch last published post
+const posts = ref<Post[]>([]);
+const postsLoading = ref(true);
 
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+const { formatDate } = useDateFormatter();
 
-onMounted(() => {
-  store.fetchData();
-  window.addEventListener('scroll', handleScroll);
+onMounted(async () => {
+  try {
+    const all = await getPosts();
+    posts.value = all.filter(p => p.published).slice(0, 1);
+  } finally {
+    postsLoading.value = false;
+  }
 });
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
-
-const retryFetch = () => {
-  store.fetchData();
-};
+const retryFetch = () => store.fetchData();
 </script>
 
 <template>
-  <div class="relative">
-    <div v-if="store.loading" class="text-center p-8 mt-20">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-sky-500 mb-4"></div>
-      <p class="text-lg text-gray-500">{{ t.common.loading }}</p>
-    </div>
-    
-    <div v-else-if="store.error" class="text-center p-8 mt-20">
-      <div class="bg-red-900/20 p-6 rounded-lg max-w-md mx-auto border border-red-500/30">
-        <p class="text-lg text-red-500 font-semibold mb-2">
-          {{ t.common.error }}: {{ getStatusMessage(store.error.status) }}
-        </p>
-        <p class="text-sm text-gray-400 mb-6">
-          Log: {{ store.error.message }}
-        </p>
-        <button 
-          @click="retryFetch"
-          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded transition-colors duration-300"
-        >
-          {{ t.common.retry }}
-        </button>
-      </div>
-    </div>
+  <div class="max-w-3xl mx-auto px-6 sm:px-10 py-14 space-y-16">
 
-    <div v-else>
-      <HeroSection />
-      <ExperienceSection />
-      <EducationSection />
-    </div>
+    <!-- ─── LOADING / ERROR ────────────────────────────────── -->
+    <LoadingSpinner v-if="loading" />
 
-    <!-- Botón Volver Arriba -->
-    <Transition
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="opacity-0 translate-y-10"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition duration-300 ease-in"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-10"
-    >
-      <button
-        v-if="showScrollTop"
-        @click="scrollToTop"
-        class="fixed bottom-8 right-8 bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-full shadow-lg z-50 transition-all duration-300 hover:scale-110"
-        :title="t.common.scrollTop"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-        </svg>
-      </button>
-    </Transition>
+    <ErrorMessage 
+      v-else-if="error" 
+      :status="error.status" 
+      :message="error.message" 
+      @retry="retryFetch" 
+    />
+
+    <template v-else>
+
+      <!-- ─── ABOUT / BIO ────────────────────────────────────── -->
+      <section v-if="profile">
+        <p class="text-gray-200 text-lg leading-relaxed">
+          {{ profile.about }}
+        </p>
+      </section>
+
+      <!-- ─── CURRENTLY WORKING AT ──────────────────────────── -->
+      <section v-if="latestJob">
+        <h2 class="section-label">Currently working at</h2>
+
+        <div class="mt-4 p-5 rounded-xl border border-[#2e2e30] bg-[#232325]/40 hover:bg-[#232325]/70 transition-all duration-300 group">
+          <div class="flex flex-wrap items-baseline justify-between gap-2 mb-1">
+            <h3 class="text-gray-200 font-semibold group-hover:text-blue-400 transition-colors duration-200">
+              {{ latestJob.role }}
+            </h3>
+            <span class="text-xs text-gray-500">{{ latestJob.period }}</span>
+          </div>
+          <p class="text-sm text-gray-400 mb-3">{{ latestJob.company }}</p>
+          <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ latestJob.description }}</p>
+          <!-- Tech tags -->
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="tech in latestJob.technologies"
+              :key="tech"
+              class="text-xs px-2.5 py-1 rounded-full bg-[#131314] border border-[#2e2e30] text-gray-400"
+            >
+              {{ tech }}
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── BLOG PREVIEW ───────────────────────────────────── -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="section-label">Blog</h2>
+          <RouterLink to="/blog" class="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+            Ver todos →
+          </RouterLink>
+        </div>
+
+        <div v-if="postsLoading" class="text-gray-500 text-sm text-center py-6">
+          {{ t.common.loading }}
+        </div>
+
+        <div v-else-if="posts.length === 0" class="text-gray-600 text-sm italic">
+          {{ t.sections.blog.noPosts }}
+        </div>
+
+        <ul v-else class="space-y-3">
+          <li v-for="post in posts" :key="post.id">
+            <RouterLink
+              :to="{ name: 'postDetail', params: { url: post.url } }"
+              class="flex items-baseline justify-between gap-4 py-3 px-4 rounded-lg border border-transparent
+                     hover:border-[#2e2e30] hover:bg-[#232325]/50 transition-all duration-200 group"
+            >
+              <span class="text-gray-300 text-sm group-hover:text-blue-400 transition-colors leading-snug">
+                {{ post.title }}
+              </span>
+              <span class="text-xs text-gray-600 whitespace-nowrap shrink-0">
+                {{ formatDate(post.createdAt) }}
+              </span>
+            </RouterLink>
+          </li>
+        </ul>
+      </section>
+
+    </template>
   </div>
 </template>
+
+<style scoped>
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280; /* gray-500 */
+}
+</style>

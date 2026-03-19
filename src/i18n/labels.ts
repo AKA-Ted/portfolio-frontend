@@ -2,7 +2,9 @@ export const labels = {
   ES: {
     navbar: {
       home: 'Inicio',
+      about: 'Sobre mí',
       docs: 'Blog',
+      snippets: 'Snippets',
       language: 'Español'
     },
     statusMessages: {
@@ -20,13 +22,14 @@ export const labels = {
       error: 'Error',
       retry: 'Reintentar',
       scrollTop: 'Volver arriba',
-      footer: 'Diseñado y construido por mí.'
+      footer: 'Hecho con 💜 por Sandy MC'
     },
     sections: {
       experience: 'Experiencia',
       education: 'Educación',
+      about: 'Sobre mí',
       blog: {
-        title: 'Documentación & Apuntes',
+        title: 'Publicaciones',
         publishedAt: 'Publicado el',
         noPosts: 'Aún no hay documentos publicados.',
         next: 'Siguiente',
@@ -38,7 +41,9 @@ export const labels = {
   EN: {
     navbar: {
       home: 'Home',
+      about: 'About',
       docs: 'Blog',
+      snippets: 'Snippets',
       language: 'English'
     },
     statusMessages: {
@@ -56,13 +61,14 @@ export const labels = {
       error: 'Error',
       retry: 'Retry',
       scrollTop: 'Scroll to top',
-      footer: 'Designed and built by me.'
+      footer: 'Made with 💜 by Sandy MC'
     },
     sections: {
       experience: 'Experience',
       education: 'Education',
+      about: 'About',
       blog: {
-        title: 'Documentation & Notes',
+        title: 'Posts',
         publishedAt: 'Published on',
         noPosts: 'No documents published yet.',
         next: 'Next',

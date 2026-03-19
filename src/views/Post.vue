@@ -74,7 +74,7 @@ onMounted(() => {
     </h1>
 
     <div v-if="isLoading" class="text-center text-gray-400 mt-20">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-sky-500 mb-4"></div>
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400 mb-4"></div>
       <p>{{ t.common.loading }}</p>
     </div>
 
@@ -97,13 +97,13 @@ onMounted(() => {
         <article 
           v-for="post in paginatedPosts" 
           :key="post.id"
-          class="bg-gray-800/50 p-6 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-300 border border-gray-700 hover:border-sky-500/50"
+          class="bg-[#232325] p-6 rounded-lg shadow-lg hover:bg-[#232325]/70 transition-colors duration-300 border border-[#2e2e30] hover:border-blue-400/50"
         >
           <RouterLink 
             :to="{ name: 'postDetail', params: { url: post.url } }"
             class="block group"
           >
-            <h2 class="text-2xl font-semibold text-white group-hover:text-sky-400 transition-colors">
+            <h2 class="text-2xl font-semibold text-gray-200 group-hover:text-blue-400 transition-colors">
               {{ post.title }}
             </h2>
             
@@ -120,7 +120,7 @@ onMounted(() => {
         <button 
           @click="prevPage" 
           :disabled="currentPage === 1"
-          class="px-4 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors border border-gray-700"
+          class="px-4 py-2 bg-[#232325] text-gray-200 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#232325]/70 transition-colors border border-[#2e2e30]"
         >
           {{ t.sections.blog.previous }}
         </button>
@@ -130,7 +130,7 @@ onMounted(() => {
         <button 
           @click="nextPage" 
           :disabled="currentPage === totalPages"
-          class="px-4 py-2 bg-gray-800 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors border border-gray-700"
+          class="px-4 py-2 bg-[#232325] text-gray-200 rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#232325]/70 transition-colors border border-[#2e2e30]"
         >
           {{ t.sections.blog.next }}
         </button>
