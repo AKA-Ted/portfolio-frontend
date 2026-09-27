@@ -45,7 +45,7 @@ const retryFetch = () => store.fetchData();
             class="p-5 rounded-xl border border-[#2e2e30] bg-[#232325]/30 hover:bg-[#232325]/60 transition-all duration-300 group"
           >
             <div class="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-              <h3 class="text-sm font-semibold text-gray-200 group-hover:text-blue-400 transition-colors">
+              <h3 class="text-sm font-semibold text-gray-200 group-hover:text-purple-400 transition-colors">
                 {{ exp.role }}
               </h3>
               <span class="text-xs text-gray-500 shrink-0">{{ exp.period }}</span>
@@ -55,7 +55,7 @@ const retryFetch = () => store.fetchData();
 
             <ul class="space-y-1 mb-3">
               <li v-for="(a, i) in exp.achievements" :key="i" class="flex items-start gap-2 text-sm text-gray-500">
-                <span class="mt-1.5 flex-shrink-0 w-1 h-1 rounded-full bg-blue-400/50"></span>
+                <span class="mt-1.5 flex-shrink-0 w-1 h-1 rounded-full bg-purple-400/50"></span>
                 {{ a }}
               </li>
             </ul>
@@ -81,7 +81,7 @@ const retryFetch = () => store.fetchData();
             :key="i"
             class="flex items-start gap-4 p-4 rounded-lg border border-transparent hover:border-[#2e2e30] hover:bg-[#232325]/40 transition-all duration-200 group"
           >
-            <div class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#2e2e30] group-hover:bg-blue-400 transition-colors"></div>
+            <div class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#2e2e30] group-hover:bg-purple-400 transition-colors"></div>
             <div>
               <h3 class="text-sm font-semibold text-gray-200">{{ edu.degree }}</h3>
               <p class="text-sm text-gray-400">{{ edu.institution }}</p>

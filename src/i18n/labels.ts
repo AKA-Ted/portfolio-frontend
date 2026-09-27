@@ -24,6 +24,9 @@ export const labels = {
       scrollTop: 'Volver arriba',
       footer: 'Hecho con 💜 por Sandy MC'
     },
+    sidebar: {
+      bio: 'Soy una apasionada desarrolladora de software que disfruta de construir herramientas útiles.'
+    },
     sections: {
       experience: 'Experiencia',
       education: 'Educación',
@@ -62,6 +65,9 @@ export const labels = {
       retry: 'Retry',
       scrollTop: 'Scroll to top',
       footer: 'Made with 💜 by Sandy MC'
+    },
+    sidebar: {
+      bio: 'I\'m a passionate software developer who enjoys building useful tools.'
     },
     sections: {
       experience: 'Experience',

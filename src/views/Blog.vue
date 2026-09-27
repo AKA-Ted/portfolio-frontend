@@ -5,8 +5,11 @@ import { RouterLink } from 'vue-router';
 import { getPosts } from '../services/postService';
 import type { Post } from '../interfaces/Post'; 
 import { useI18n } from '../composables/useI18n';
+import { usePostTranslation } from '../composables/usePostTranslation';
 
-const { t, getStatusMessage } = useI18n();
+const { t } = useI18n();
+const { translate } = usePostTranslation();
+
 const posts = ref<Post[]>([]);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
@@ -33,7 +36,7 @@ const fetchPosts = async () => {
     const response = await getPosts();
     posts.value = response.filter(post => post.published);
   } catch (err: any) {
-    error.value = getStatusMessage(err.status);
+    error.value = err.message || 'Error loading posts';
   } finally {
     isLoading.value = false;
   }
@@ -74,7 +77,7 @@ onMounted(() => {
     </h1>
 
     <div v-if="isLoading" class="text-center text-gray-400 mt-20">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400 mb-4"></div>
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-400 mb-4"></div>
       <p>{{ t.common.loading }}</p>
     </div>
 
@@ -96,19 +99,23 @@ onMounted(() => {
       <div class="space-y-8">
         <article 
           v-for="post in paginatedPosts" 
-          :key="post.id"
-          class="bg-[#232325] p-6 rounded-lg shadow-lg hover:bg-[#232325]/70 transition-colors duration-300 border border-[#2e2e30] hover:border-blue-400/50"
+          :key="post.url"
+          class="bg-[#232325] p-6 rounded-lg shadow-lg hover:bg-[#232325]/70 transition-colors duration-300 border border-[#2e2e30] hover:border-purple-400/50"
         >
           <RouterLink 
             :to="{ name: 'postDetail', params: { url: post.url } }"
             class="block group"
           >
-            <h2 class="text-2xl font-semibold text-gray-200 group-hover:text-blue-400 transition-colors">
-              {{ post.title }}
+            <h2 class="text-2xl font-semibold text-gray-200 group-hover:text-purple-400 transition-colors">
+              {{ translate(post).title }}
             </h2>
             
             <p class="text-sm text-gray-500 mt-2">
               {{ t.sections.blog.publishedAt }} {{ formatDate(post.createdAt) }}
+            </p>
+
+            <p class="text-gray-400 mt-3 text-sm leading-relaxed">
+              {{ translate(post).summary }}
             </p>
 
             </RouterLink>

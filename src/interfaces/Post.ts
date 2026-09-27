@@ -1,9 +1,18 @@
-export interface Post {
-  id?: string; 
+export interface PostTranslation {
   title: string;
-  url: string;
   content: string;
-  published: boolean;
-  createdAt: string; 
+  summary: string;
+}
+
+export interface PostTranslations {
+  en: PostTranslation;
+  es: PostTranslation;
+}
+
+export interface Post {
+  url: string;
+  translation: PostTranslations;
+  createdAt: string;
   updatedAt: string;
+  published: boolean;
 }

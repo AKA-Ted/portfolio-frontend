@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner.vue';
 import ErrorMessage from '../components/common/ErrorMessage.vue';
 import { getPosts } from '../services/postService';
 import type { Post } from '../interfaces/Post';
+import { usePostTranslation } from '../composables/usePostTranslation';
 
 const store = useCvStore();
 const { profile, experience, loading, error } = storeToRefs(store);
@@ -22,6 +23,7 @@ const posts = ref<Post[]>([]);
 const postsLoading = ref(true);
 
 const { formatDate } = useDateFormatter();
+const { translate } = usePostTranslation();
 
 onMounted(async () => {
   try {
@@ -63,7 +65,7 @@ const retryFetch = () => store.fetchData();
 
         <div class="mt-4 p-5 rounded-xl border border-[#2e2e30] bg-[#232325]/40 hover:bg-[#232325]/70 transition-all duration-300 group">
           <div class="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-            <h3 class="text-gray-200 font-semibold group-hover:text-blue-400 transition-colors duration-200">
+            <h3 class="text-gray-200 font-semibold group-hover:text-purple-400 transition-colors duration-200">
               {{ latestJob.role }}
             </h3>
             <span class="text-xs text-gray-500">{{ latestJob.period }}</span>
@@ -87,7 +89,7 @@ const retryFetch = () => store.fetchData();
       <section>
         <div class="flex items-center justify-between mb-4">
           <h2 class="section-label">Blog</h2>
-          <RouterLink to="/blog" class="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+          <RouterLink to="/blog" class="text-xs text-purple-400 hover:text-purple-300 transition-colors">
             Ver todos →
           </RouterLink>
         </div>
@@ -96,23 +98,28 @@ const retryFetch = () => store.fetchData();
           {{ t.common.loading }}
         </div>
 
-        <div v-else-if="posts.length === 0" class="text-gray-600 text-sm italic">
+        <div v-else-if="posts.length === 0" class="text-gray-600 text-base italic">
           {{ t.sections.blog.noPosts }}
         </div>
 
         <ul v-else class="space-y-3">
-          <li v-for="post in posts" :key="post.id">
+          <li v-for="post in posts" :key="post.url">
             <RouterLink
               :to="{ name: 'postDetail', params: { url: post.url } }"
-              class="flex items-baseline justify-between gap-4 py-3 px-4 rounded-lg border border-transparent
-                     hover:border-[#2e2e30] hover:bg-[#232325]/50 transition-all duration-200 group"
+              class="block p-5 rounded-xl border border-[#2e2e30] bg-[#232325]/40
+                     hover:bg-[#232325]/70 transition-all duration-200 group"
             >
-              <span class="text-gray-300 text-sm group-hover:text-blue-400 transition-colors leading-snug">
-                {{ post.title }}
-              </span>
-              <span class="text-xs text-gray-600 whitespace-nowrap shrink-0">
-                {{ formatDate(post.createdAt) }}
-              </span>
+              <div class="flex items-baseline justify-between gap-4">
+                <span class="text-gray-200 font-semibold group-hover:text-purple-400 transition-colors leading-snug">
+                  {{ translate(post).title }}
+                </span>
+                <span class="text-xs text-gray-600 whitespace-nowrap shrink-0">
+                  {{ formatDate(post.createdAt) }}
+                </span>
+              </div>
+              <p class="text-sm text-gray-500 mt-2 leading-relaxed">
+                {{ translate(post).summary }}
+              </p>
             </RouterLink>
           </li>
         </ul>

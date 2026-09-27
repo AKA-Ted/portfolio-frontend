@@ -5,7 +5,7 @@ const { t } = useI18n();
 
 <template>
   <div class="text-center py-20 w-full">
-    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400 mb-4"></div>
+    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-400 mb-4"></div>
     <p class="text-gray-500">{{ t.common.loading }}</p>
   </div>
 </template>

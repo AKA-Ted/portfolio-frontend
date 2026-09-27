@@ -35,12 +35,12 @@ const navLinks = [
         <span class="text-2xl font-black uppercase tracking-tight name-gradient leading-none">
           {{ profile?.name ?? 'Sandy MC' }}
         </span>
-        <span class="text-blue-400 text-xl font-black">.</span>
+        <span class="text-purple-400 text-xl font-black">.</span>
       </RouterLink>
 
       <!-- Language Toggle -->
-      <button @click="toggleLanguage" class="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 bg-[#232325] text-gray-200 rounded-lg hover:text-white hover:border-blue-400/50 transition-all border border-[#2e2e30]">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button @click="toggleLanguage" class="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 bg-[#232325] text-gray-200 rounded-lg hover:text-white hover:border-purple-400/50 transition-all border border-[#2e2e30]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
         </svg>
         {{ currentLang }}
@@ -50,12 +50,12 @@ const navLinks = [
     <!-- Typewriter bio -->
     <div class="mb-8">
       <div class="typing-container">
-        <p class="text-blue-400 font-medium typing-effect text-sm">
+        <p class="text-purple-400 font-medium typing-effect text-sm">
           {{ profile?.title ?? 'Software Developer' }}
         </p>
       </div>
       <p class="text-gray-500 text-sm leading-relaxed mt-4">
-        Desarrollador de software apasionado por construir herramientas útiles y experiencias digitales con cuidado al detalle.
+        {{ t.sidebar.bio }}
       </p>
     </div>
 
@@ -90,13 +90,13 @@ const navLinks = [
   <header class="lg:hidden bg-[#131314]/90 backdrop-blur-sm sticky top-0 z-50 border-b border-[#232325]">
     <div class="flex items-center justify-between px-4 h-14">
       <RouterLink to="/" class="text-white text-lg font-black uppercase tracking-tight" @click="closeMenu">
-        Sandy MC<span class="text-blue-400">.</span>
+        Sandy MC<span class="text-purple-400">.</span>
       </RouterLink>
 
       <div class="flex items-center gap-3">
         <!-- Language -->
         <button @click="toggleLanguage" class="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 bg-[#232325] text-gray-200 rounded-lg hover:text-white transition-all border border-[#2e2e30]">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
           </svg>
           {{ currentLang }}
@@ -140,7 +140,7 @@ const navLinks = [
 <style scoped>
 /* === Name gradient === */
 .name-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #94c8fb 50%, #60a5fa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #d8b4fe 50%, #c084fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -160,7 +160,7 @@ const navLinks = [
   background-color: #232325;
 }
 .nav-link--active {
-  color: #60a5fa;
+  color: #c084fc;
   font-weight: 600;
 }
 
@@ -188,7 +188,7 @@ const navLinks = [
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  border-right: .12em solid #60a5fa;
+  border-right: .12em solid #c084fc;
   width: 0;
   animation:
     typing 3s steps(30, end) forwards,
@@ -202,6 +202,6 @@ const navLinks = [
 
 @keyframes blink-caret {
   from, to { border-color: transparent }
-  50%      { border-color: #60a5fa; }
+  50%      { border-color: #c084fc; }
 }
 </style>

@@ -19,7 +19,10 @@ export const getPosts = async (page = 0, size = 10): Promise<Post[]> => {
     }
 
     // El objeto real está en data.content
-    return resData.data.content;
+    return resData.data.content.map((post: any) => ({
+      ...post,
+      translation: typeof post.translation === 'string' ? JSON.parse(post.translation) : post.translation
+    }));
   } catch (error: any) {
     if (error.status) throw error;
     const status = error.response?.status || 500;
@@ -44,7 +47,11 @@ export const getPostByUrl = async (url: string): Promise<Post> => {
       };
     }
 
-    return resData.data;
+    const post = resData.data;
+    if (typeof post.translation === 'string') {
+      post.translation = JSON.parse(post.translation);
+    }
+    return post;
   } catch (error: any) {
     if (error.status) throw error;
     const status = error.response?.status || 500;
